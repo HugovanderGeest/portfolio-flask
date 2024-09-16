@@ -13,12 +13,12 @@ def html_page(page_name):
     return render_template(page_name)
 
 
-# def write_to_file(data):
-#     with open('database.txt', mode='a') as database:
-#         email = data['email']
-#         subject = data['subject']
-#         message = data['message']
-#         file = database.write(f'\n{email},{subject},{message}')
+def write_to_file(data):
+    with open('database.txt', mode='a') as database:
+        email = data['email']
+        subject = data['subject']
+        message = data['message']
+        file = database.write(f'\n{email},{subject},{message}')
 
 
 def write_to_csv(data):
@@ -38,3 +38,7 @@ def submit_form():
         return redirect('/thankyou.html')
     else:
         return 'Something went wrong!'
+
+if __name__ == '__main__':
+    from waitress import serve
+    serve(app, host='0.0.0.0', port=5000)
