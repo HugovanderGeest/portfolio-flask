@@ -681,6 +681,11 @@ a.bg-success:hover {
     background-color: #000
 }
 
+#navbar-collapse {
+    background-color: black;
+  border-radius: 20px;
+}
+
 .bg-info {
     background-color: #d9edf7
 }
