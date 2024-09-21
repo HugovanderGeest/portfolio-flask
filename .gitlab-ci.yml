@@ -1,9 +1,11 @@
 deploy-job:
   tags:
-    - hva
-  image: mcr.microsoft.com/azure-cli
-  stage: deploy
-  script:
-    - az login 
-    - az account set --subscription " Azure for Students "
-    - az group list
+    
+hva
+image: mcr.microsoft.com/azure-cli
+stage: deploy
+script:
+az login 
+az account set --subscription "Azure for Students"
+az group list
+az webapp up --runtime PYTHON:3.9 --sku B1 --logs
