@@ -1,4 +1,3 @@
-
 az login
 az account list
 az account show --query id --output tsv
@@ -20,7 +19,7 @@ az group create \
     --location $LOCATION \
     --name $RESOURCE_GROUP_NAME
 
-APP_SERVICE_PLAN_NAME='FlaskHugo444'    
+APP_SERVICE_PLAN_NAME='FlaskHugo445'    
 
 az appservice plan create \
     --name $APP_SERVICE_PLAN_NAME \
@@ -28,7 +27,7 @@ az appservice plan create \
     --is-linux
 
 # Change 123 to any three characters to form a unique name across Azure
-APP_SERVICE_NAME='FlaskHugo444'  # Could change
+APP_SERVICE_NAME='FlaskHugo445'  # Could change
 
 az webapp create\
     --name $APP_SERVICE_NAME \
@@ -38,11 +37,13 @@ az webapp create\
     --query 'defaultHostName' \
     --output table
 
+# Build the Docker image
+docker build -t portfolioflask .
 
-az webapp up\
-    --name $APP_SERVICE_NAME \
-    --plan $APP_SERVICE_PLAN_NAME\
-    --runtime 'PYTHON:3.9' \
-    --resource-group $RESOURCE_GROUP_NAME \
-    --query 'defaultHostName' \
-    --output table
+# Push the Docker image to your container registry (example for Docker Hub)
+docker tag portfolioflask your-dockerhub-username/portfolioflask
+docker push your-dockerhub-username/portfolioflask
+
+# Deploy the updated image to Azure
+az webapp create --name $APP_SERVICE_NAME --plan $APP_SERVICE_PLAN_NAME --runtime 'PYTHON:3.9' --resource-group $RESOURCE_GROUP_NAME --query 'defaultHostName' --output table
+az webapp up --name $APP_SERVICE_NAME --plan $APP_SERVICE_PLAN_NAME --runtime 'PYTHON:3.9' --resource-group $RESOURCE_GROUP_NAME --query 'defaultHostName' --output table
